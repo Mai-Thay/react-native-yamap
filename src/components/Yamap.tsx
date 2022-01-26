@@ -19,7 +19,6 @@ const { yamap: NativeYamapModule } = NativeModules;
 export interface YaMapProps extends ViewProps {
   userLocationIcon?: ImageSourcePropType;
   showUserPosition?: boolean;
-  nightMode?: boolean;
   mapStyle?: string;
   onCameraPositionChange?: (event: NativeSyntheticEvent<CameraPosition>) => void;
   onMapPress?: (event: NativeSyntheticEvent<Point>) => void;
@@ -98,9 +97,9 @@ export class YaMap extends React.Component<YaMapProps> {
     CallbacksManager.call(id, position);
   }
 
-  private processVisibleRegion(event: any) {
-    const { id, ...region } = event.nativeEvent;
-    CallbacksManager.call(id, region);
+  private processVisibleRegion(event: NativeSyntheticEvent<{id: string} & VisibleRegion>) {
+    const {id, ...visibleRegion} = event.nativeEvent;
+    CallbacksManager.call(id, visibleRegion);
   }
 
   private resolveImageUri(img: ImageSourcePropType) {
